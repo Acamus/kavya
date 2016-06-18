@@ -1,0 +1,55 @@
+public class SearchProductServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	IProductService imp = new IProductServiceImp();
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		PrintWriter out = response.getWriter();
+		String option = request.getParameter("option");
+		String search = request.getParameter("search");
+		response.setContentType("text/html");
+
+		if (option.equals("ProductName")) {
+			List<Product> products = imp.searchByproductname(search);
+			Gson myJson = new Gson();
+			String prjson = myJson.toJson(products);
+			
+			imp.storeJson(prjson);
+			response.sendRedirect("pages/Searchresult.html");
+		}
+
+		if (option.equals("SupplierName")) {
+			List<Product> products = imp.searchBySupplier(search);
+			Gson myJson = new Gson();
+			String prjson = myJson.toJson(products);
+			out.println(prjson);
+			imp.storeJson(prjson);
+			response.sendRedirect("pages/Searchresult.html");
+		}
+		if (option.equals("Category")) {
+			List<Product> products = imp.searchByCategory(search);
+			Gson myJson = new Gson();
+			String prjson = myJson.toJson(products);
+			out.println(prjson);
+			imp.storeJson(prjson);
+			response.sendRedirect("pages/Searchresult.html");
+		}
+		if (option.equals("Subcategory")) {
+			List<Product> products = imp.searchBySubcategory(search);
+			Gson myJson = new Gson();
+			String prjson = myJson.toJson(products);
+			out.println(prjson);
+			imp.storeJson(prjson);
+			response.sendRedirect("pages/Searchresult.html");
+		}
+		if (option.equals("Rating")) {
+			List<Product> products = imp.searchByRating(Float.parseFloat(search));
+			Gson myJson = new Gson();
+			String prjson = myJson.toJson(products);
+			out.println(prjson);
+			imp.storeJson(prjson);
+			response.sendRedirect("pages/Searchresult.html");
+		}
+
+	}

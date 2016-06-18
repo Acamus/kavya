@@ -1,0 +1,36 @@
+	public void storeJson(String prjson) {
+		String query="delete from jsonTable";
+		String query1="insert into jsonTable values (?)";
+		PreparedStatement pst1=null;
+		PreparedStatement pst2=null;
+		try {
+			pst1=dbConnections.getPreparedStatement(query);
+			pst1.executeUpdate();
+			pst2=dbConnections.getPreparedStatement(query1);
+			pst2.setString(1, prjson);
+			pst2.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+	public String getJsonProduct() {
+		String query="select * from jsonTable";
+		PreparedStatement pst1=null;
+		String jsonData=null;
+		ResultSet rs=null;
+		
+		try {
+			pst1=dbConnections.getPreparedStatement(query);
+			rs=pst1.executeQuery();
+			if(rs.next()){
+				jsonData=rs.getString(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return jsonData;
+	}
